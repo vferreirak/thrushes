@@ -84,7 +84,7 @@
 
             lastImage = randomImage;
             correctAnswer = randomSpecies;
-            const imgPath = baseUrl + randomSpecies.replace('_', '%20') + '%20Thrush/' + randomImage + '.jpg';
+            const imgPath = baseUrl + randomSpecies.replace('_', '%20') + '%20Thrush/' + randomImage + '.jpg'; // Add '.jpg' to the URL
             
             document.getElementById('bird-image').src = imgPath; // Update the image
             document.getElementById('feedback').innerText = '';  // Clear previous feedback
