@@ -121,6 +121,7 @@
         }
         
         // Function to start the game when Start Game is clicked
+        // Function to start the game when Start Game is clicked
         function startGame() {
             username = document.getElementById('username').value.trim();  // Get username from input
             if (username === '') {
@@ -129,14 +130,20 @@
             }
             streak = 0;
             document.getElementById('streak').innerText = streak;
-            document.getElementById('home-screen').classList.add('hidden');  // Hide home screen
-            document.getElementById('game-screen').classList.remove('hidden');  // Show game screen
-            loadImageData();  // Load images and start the game
+        
+            // Hide the home screen using display: none
+            document.getElementById('home-screen').style.display = 'none';
+        
+            // Show the game screen
+            document.getElementById('game-screen').classList.remove('hidden');
+        
+            // Load images and start the game
+            loadImageData();
         
             // Scroll to the top of the page when the game starts
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
+        
         // Function to restart the game
         function restartGame() {
             showHomeScreen();  // Go back to home screen to start over
