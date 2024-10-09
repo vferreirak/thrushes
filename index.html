@@ -37,22 +37,19 @@
         let streak = 0;
         let correctAnswer = '';
 
-        // Filenames for the test images
+        // Direct raw URLs for the test images
         const images = {
-            swainsons: ['115419681.jpg'],
-            hermit: ['130496251.jpg'],
-            gray_cheeked: ['136651901.jpg']
+            swainsons: ['https://raw.githubusercontent.com/vferreirak/thrushes/main/Swainson%27s%20Thrush/115419681.jpg'],
+            hermit: ['https://raw.githubusercontent.com/vferreirak/thrushes/main/Hermit%20Thrush/130496251.jpg'],
+            gray_cheeked: ['https://raw.githubusercontent.com/vferreirak/thrushes/main/Gray-cheeked%20Thrush/136651901.jpg']
         };
-
-        // Base URL for your GitHub raw files
-        const baseUrl = 'https://raw.githubusercontent.com/vferreirak/thrushes/main/';
 
         function loadNextImage() {
             const birdSpecies = ['swainsons', 'hermit', 'gray_cheeked'];
             const randomSpecies = birdSpecies[Math.floor(Math.random() * birdSpecies.length)];
             
             correctAnswer = randomSpecies;
-            const imgPath = baseUrl + capitalizeFirstLetter(randomSpecies.replace('_', '%20') + '%20Thrush/') + images[randomSpecies][0];
+            const imgPath = images[randomSpecies][0];
             
             document.getElementById('bird-image').src = imgPath;
             document.getElementById('feedback').innerText = '';
@@ -68,10 +65,6 @@
             }
             document.getElementById('streak').innerText = streak;
             loadNextImage();
-        }
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         // Load the first image when the page loads
