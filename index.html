@@ -55,20 +55,25 @@
         function loadNextImage() {
             const birdSpecies = ['swainsons', 'hermit', 'gray_cheeked'];
             let randomSpecies, randomImage;
-            
+        
             do {
                 randomSpecies = birdSpecies[Math.floor(Math.random() * birdSpecies.length)];
                 randomImage = images[randomSpecies][Math.floor(Math.random() * images[randomSpecies].length)];
             } while (randomImage === lastImage); // Avoid repeating the same image
-
+        
             lastImage = randomImage;
             correctAnswer = randomSpecies;
-            const imgPath = baseUrl + randomSpecies.replace('_', '%20') + '%20Thrush/' + randomImage + '.jpg'; // Add '.jpg' to the URL
-            
-            document.getElementById('bird-image').src = imgPath; // Update the image
+        
+            // Construct the image URL
+            const imgPath = baseUrl + randomSpecies.replace('_', '%20') + '%20Thrush/' + randomImage + '.jpg';
+        
+            // Log the generated URL for debugging
+            console.log("Generated Image URL: ", imgPath);
+        
+            // Update the image element
+            document.getElementById('bird-image').src = imgPath; 
             document.getElementById('feedback').innerText = '';  // Clear previous feedback
         }
-
         // Function to check the user's answer and load the next image
         function checkAnswer(selected) {
             if (selected === correctAnswer) {
