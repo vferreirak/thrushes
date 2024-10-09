@@ -1,16 +1,20 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
 
 #home-screen {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background: url('https://raw.githubusercontent.com/vferreirak/thrushes/main/homescreen.jpeg') no-repeat center center/cover;
+    background: url('https://raw.githubusercontent.com/vferreirak/thrushes/main/homescreen.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .overlay {
@@ -19,7 +23,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay */
     z-index: 1;
 }
 
@@ -32,9 +36,12 @@ body {
 
 #home-screen h1 {
     font-size: 48px;
-    font-weight: bold;
-    margin-top: 100px;
-    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+#home-screen p {
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 #username {
@@ -45,6 +52,7 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 300px;
     max-width: 90%;
+    margin-bottom: 20px;
 }
 
 button {
@@ -59,6 +67,7 @@ button {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 button:hover {
