@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thrush Identification Game</title>
+    <title>Thrush Identification Game - Test</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
         h1 { color: #333; }
@@ -36,32 +36,23 @@
     <script>
         let streak = 0;
         let correctAnswer = '';
-        
+
+        // Filenames for the test images
         const images = {
-            swainsons: [
-                'path_to_your_image_folder/swainsons/image1.jpg', 
-                'path_to_your_image_folder/swainsons/image2.jpg', 
-                // Add more images
-            ],
-            hermit: [
-                'path_to_your_image_folder/hermit/image1.jpg', 
-                'path_to_your_image_folder/hermit/image2.jpg', 
-                // Add more images
-            ],
-            gray_cheeked: [
-                'path_to_your_image_folder/gray_cheeked/image1.jpg', 
-                'path_to_your_image_folder/gray_cheeked/image2.jpg', 
-                // Add more images
-            ]
+            swainsons: ['115419681.jpg'],
+            hermit: ['130496251.jpg'],
+            gray_cheeked: ['136651901.jpg']
         };
+
+        // Base URL for your GitHub raw files
+        const baseUrl = 'https://raw.githubusercontent.com/vferreirak/thrushes/main/';
 
         function loadNextImage() {
             const birdSpecies = ['swainsons', 'hermit', 'gray_cheeked'];
             const randomSpecies = birdSpecies[Math.floor(Math.random() * birdSpecies.length)];
-            const randomImageIndex = Math.floor(Math.random() * images[randomSpecies].length);
             
             correctAnswer = randomSpecies;
-            const imgPath = images[randomSpecies][randomImageIndex];
+            const imgPath = baseUrl + capitalizeFirstLetter(randomSpecies.replace('_', '%20') + '%20Thrush/') + images[randomSpecies][0];
             
             document.getElementById('bird-image').src = imgPath;
             document.getElementById('feedback').innerText = '';
@@ -77,6 +68,10 @@
             }
             document.getElementById('streak').innerText = streak;
             loadNextImage();
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
         // Load the first image when the page loads
