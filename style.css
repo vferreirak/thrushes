@@ -29,7 +29,7 @@ body {
 
 #home-screen h1, #home-screen p, #username, button {
     position: relative;
-    z-index: 2;  /* Ensures these elements are above the overlay */
+    z-index: 10;  /* Ensure these elements are above the overlay */
 }
 
 #home-screen h1 {
@@ -70,6 +70,10 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.hidden {
+    display: none;
 }
 
 @media only screen and (max-width: 600px) {
