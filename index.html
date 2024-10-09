@@ -113,14 +113,14 @@
             setTimeout(loadNextImage, 1500); // Wait 1.5 seconds before loading next image
         }
 
-        // Function to show the home screen
+        // Function to show the home screen and hide others
         function showHomeScreen() {
             document.getElementById('home-screen').classList.remove('hidden');
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('leaderboard-screen').classList.add('hidden');
         }
 
-        // Function to start the game (called when Start Game is clicked)
+        // Function to start the game when Start Game is clicked
         function startGame() {
             username = document.getElementById('username').value.trim();  // Get username from input
             if (username === '') {
@@ -132,16 +132,16 @@
             document.getElementById('home-screen').classList.add('hidden');  // Hide home screen
             document.getElementById('game-screen').classList.remove('hidden');  // Show game screen
             loadImageData();  // Load images and start the game
-        }
+        }    
 
         // Function to restart the game
         function restartGame() {
             showHomeScreen();  // Go back to home screen to start over
         }
 
-        // Start by showing the home screen
+        // Ensure home screen is shown and game screen is hidden on page load
         window.onload = () => {
-            showHomeScreen(); // This ensures the home screen is shown at the start
+            showHomeScreen(); // Show the home screen when the page loads
         };
 
     </script>
