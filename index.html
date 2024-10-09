@@ -12,32 +12,53 @@
         .button-container button { padding: 10px 20px; font-size: 18px; cursor: pointer; margin: 5px; }
         .streak-counter { margin-top: 20px; font-size: 24px; }
         .feedback { margin-top: 20px; font-size: 20px; color: green; }
+        .hidden { display: none; }
+        #leaderboard { margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <h1>Identify the Thrush</h1>
-    <div class="image-container">
-        <img id="bird-image" src="" alt="Thrush Image">
-    </div>
-    
-    <div class="button-container">
-        <button onclick="checkAnswer('swainsons')">Swainson's Thrush</button>
-        <button onclick="checkAnswer('hermit')">Hermit Thrush</button>
-        <button onclick="checkAnswer('gray_cheeked')">Gray-cheeked Thrush</button>
+    <!-- Home Screen -->
+    <div id="home-screen">
+        <h1>Welcome to the Thrush Identification Game!</h1>
+        <p>Can you correctly identify the thrush species?</p>
+        <button onclick="startGame()">Start Game</button>
     </div>
 
-    <div class="streak-counter">
-        Current Streak: <span id="streak">0</span>
+    <!-- Game Screen -->
+    <div id="game-screen" class="hidden">
+        <h1>Identify the Thrush</h1>
+        <div class="image-container">
+            <img id="bird-image" src="" alt="Thrush Image">
+        </div>
+        
+        <div class="button-container">
+            <button onclick="checkAnswer('swainsons')">Swainson's Thrush</button>
+            <button onclick="checkAnswer('hermit')">Hermit Thrush</button>
+            <button onclick="checkAnswer('gray_cheeked')">Gray-cheeked Thrush</button>
+        </div>
+
+        <div class="streak-counter">
+            Current Streak: <span id="streak">0</span>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
     </div>
 
-    <div class="feedback" id="feedback"></div>
+    <!-- Leaderboard Screen -->
+    <div id="leaderboard-screen" class="hidden">
+        <h1>Leaderboard</h1>
+        <p>Top Streaks</p>
+        <ul id="leaderboard"></ul>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
 
     <script>
         let streak = 0;
         let correctAnswer = '';
         let lastImage = '';
         let images = {};
+        let topStreaks = [];  // Array to store top streaks
 
         const baseUrl = 'https://raw.githubusercontent.com/vferreirak/thrushes/main/';
 
@@ -55,15 +76,15 @@
         function loadNextImage() {
             const birdSpecies = ['swainsons', 'hermit', 'gray_cheeked'];
             let randomSpecies, randomImage;
-        
+            
             do {
                 randomSpecies = birdSpecies[Math.floor(Math.random() * birdSpecies.length)];
                 randomImage = images[randomSpecies][Math.floor(Math.random() * images[randomSpecies].length)];
             } while (randomImage === lastImage); // Avoid repeating the same image
-        
+
             lastImage = randomImage;
             correctAnswer = randomSpecies;
-        
+
             // Correct the folder name based on species
             let folderName = '';
             if (randomSpecies === 'gray_cheeked') {
@@ -73,33 +94,79 @@
             } else if (randomSpecies === 'hermit') {
                 folderName = 'Hermit%20Thrush';
             }
-        
+
             // Construct the image URL
             const imgPath = baseUrl + folderName + '/' + randomImage + '.jpg';
-        
-            // Log the generated URL for debugging
-            console.log("Generated Image URL: ", imgPath);
-        
+
             // Update the image element
             document.getElementById('bird-image').src = imgPath; 
             document.getElementById('feedback').innerText = '';  // Clear previous feedback
         }
-        
+
         // Function to check the user's answer and load the next image
         function checkAnswer(selected) {
             if (selected === correctAnswer) {
                 streak++; // Increase streak if correct
                 document.getElementById('feedback').innerText = 'Correct!';
             } else {
-                streak = 0; // Reset streak if wrong
                 document.getElementById('feedback').innerText = 'Wrong! The correct answer was ' + correctAnswer;
+
+                // Store the streak if it's a new top streak
+                if (streak > 0) {
+                    topStreaks.push(streak);
+                    topStreaks.sort((a, b) => b - a);  // Sort streaks in descending order
+                    if (topStreaks.length > 3) topStreaks.pop();  // Keep only top 3
+                }
+
+                streak = 0; // Reset streak if wrong
+                updateLeaderboard();  // Update the leaderboard
+                showLeaderboard();  // Show the leaderboard
+                return;
             }
             document.getElementById('streak').innerText = streak; // Update streak
             setTimeout(loadNextImage, 1500); // Wait 1.5 seconds before loading next image
         }
 
-        // Load image data and the first image when the page loads
-        window.onload = loadImageData;
+        // Function to show the home screen
+        function showHomeScreen() {
+            document.getElementById('home-screen').classList.remove('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('leaderboard-screen').classList.add('hidden');
+        }
+
+        // Function to start the game
+        function startGame() {
+            streak = 0;
+            document.getElementById('streak').innerText = streak;
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            loadImageData();  // Load images and start the game
+        }
+
+        // Function to show the leaderboard
+        function showLeaderboard() {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('leaderboard-screen').classList.remove('hidden');
+        }
+
+        // Function to restart the game
+        function restartGame() {
+            showHomeScreen();  // Go back to home screen to start over
+        }
+
+        // Function to update the leaderboard
+        function updateLeaderboard() {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.innerHTML = '';  // Clear current leaderboard
+            topStreaks.forEach((streak, index) => {
+                const li = document.createElement('li');
+                li.textContent = `#${index + 1}: ${streak} streak`;
+                leaderboard.appendChild(li);
+            });
+        }
+
+        // Start by showing the home screen
+        window.onload = showHomeScreen;
     </script>
 
 </body>
