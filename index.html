@@ -123,14 +123,20 @@
             setTimeout(loadNextImage, 1500); // Wait 1.5 seconds before loading next image
         }
 
+        // Start by showing the home screen and loading leaderboard from localStorage
+        window.onload = () => {
+            showHomeScreen(); // This ensures the home screen is shown at the start
+            updateLeaderboard();  // Load leaderboard from localStorage
+        };
+        
         // Function to show the home screen
         function showHomeScreen() {
             document.getElementById('home-screen').classList.remove('hidden');
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('leaderboard-screen').classList.add('hidden');
         }
-
-        // Function to start the game
+        
+        // Function to start the game (called when Start Game is clicked)
         function startGame() {
             username = document.getElementById('username').value.trim();  // Get username from input
             if (username === '') {
@@ -139,8 +145,8 @@
             }
             streak = 0;
             document.getElementById('streak').innerText = streak;
-            document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('home-screen').classList.add('hidden');  // Hide home screen
+            document.getElementById('game-screen').classList.remove('hidden');  // Show game screen
             loadImageData();  // Load images and start the game
         }
 
