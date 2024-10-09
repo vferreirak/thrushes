@@ -27,11 +27,9 @@ body {
     z-index: 1;
 }
 
-#home-screen h1, #home-screen p {
+#home-screen h1, #home-screen p, #username, button {
     position: relative;
-    z-index: 2;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 2;  /* Ensures these elements are above the overlay */
 }
 
 #home-screen h1 {
