@@ -119,7 +119,7 @@
             document.getElementById('game-screen').classList.add('hidden');
             document.getElementById('leaderboard-screen').classList.add('hidden');
         }
-
+        
         // Function to start the game when Start Game is clicked
         function startGame() {
             username = document.getElementById('username').value.trim();  // Get username from input
@@ -132,6 +132,9 @@
             document.getElementById('home-screen').classList.add('hidden');  // Hide home screen
             document.getElementById('game-screen').classList.remove('hidden');  // Show game screen
             loadImageData();  // Load images and start the game
+        
+            // Scroll to the top of the page when the game starts
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Function to restart the game
