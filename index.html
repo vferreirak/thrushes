@@ -22,6 +22,8 @@
     <div id="home-screen">
         <h1>Welcome to the Thrush Identification Game!</h1>
         <p>Can you correctly identify the thrush species?</p>
+        <input type="text" id="username" placeholder="Enter your username" required>
+        <br><br>
         <button onclick="startGame()">Start Game</button>
     </div>
 
@@ -58,7 +60,8 @@
         let correctAnswer = '';
         let lastImage = '';
         let images = {};
-        let topStreaks = [];  // Array to store top streaks
+        let topStreaks = JSON.parse(localStorage.getItem('topStreaks')) || [];  // Load from localStorage
+        let username = '';
 
         const baseUrl = 'https://raw.githubusercontent.com/vferreirak/thrushes/main/';
 
@@ -113,9 +116,10 @@
 
                 // Store the streak if it's a new top streak
                 if (streak > 0) {
-                    topStreaks.push(streak);
-                    topStreaks.sort((a, b) => b - a);  // Sort streaks in descending order
-                    if (topStreaks.length > 3) topStreaks.pop();  // Keep only top 3
+                    topStreaks.push({ username, streak });
+                    topStreaks.sort((a, b) => b.streak - a.streak);  // Sort streaks in descending order
+                    if (topStreaks.length > 5) topStreaks.pop();  // Keep only top 5
+                    localStorage.setItem('topStreaks', JSON.stringify(topStreaks));  // Save to localStorage
                 }
 
                 streak = 0; // Reset streak if wrong
@@ -136,6 +140,11 @@
 
         // Function to start the game
         function startGame() {
+            username = document.getElementById('username').value.trim();  // Get username from input
+            if (username === '') {
+                alert('Please enter a username!');
+                return;
+            }
             streak = 0;
             document.getElementById('streak').innerText = streak;
             document.getElementById('home-screen').classList.add('hidden');
@@ -158,15 +167,18 @@
         function updateLeaderboard() {
             const leaderboard = document.getElementById('leaderboard');
             leaderboard.innerHTML = '';  // Clear current leaderboard
-            topStreaks.forEach((streak, index) => {
+            topStreaks.forEach((entry, index) => {
                 const li = document.createElement('li');
-                li.textContent = `#${index + 1}: ${streak} streak`;
+                li.textContent = `#${index + 1}: ${entry.username} - ${entry.streak} streak`;
                 leaderboard.appendChild(li);
             });
         }
 
-        // Start by showing the home screen
-        window.onload = showHomeScreen;
+        // Start by showing the home screen and loading leaderboard from localStorage
+        window.onload = () => {
+            showHomeScreen();
+            updateLeaderboard();  // Load leaderboard from localStorage
+        };
     </script>
 
 </body>
