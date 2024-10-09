@@ -64,8 +64,18 @@
             lastImage = randomImage;
             correctAnswer = randomSpecies;
         
+            // Correct the folder name based on species
+            let folderName = '';
+            if (randomSpecies === 'gray_cheeked') {
+                folderName = 'Gray-cheeked%20Thrush';
+            } else if (randomSpecies === 'swainsons') {
+                folderName = 'Swainson%27s%20Thrush';
+            } else if (randomSpecies === 'hermit') {
+                folderName = 'Hermit%20Thrush';
+            }
+        
             // Construct the image URL
-            const imgPath = baseUrl + randomSpecies.replace('_', '%20') + '%20Thrush/' + randomImage + '.jpg';
+            const imgPath = baseUrl + folderName + '/' + randomImage + '.jpg';
         
             // Log the generated URL for debugging
             console.log("Generated Image URL: ", imgPath);
@@ -74,6 +84,7 @@
             document.getElementById('bird-image').src = imgPath; 
             document.getElementById('feedback').innerText = '';  // Clear previous feedback
         }
+        
         // Function to check the user's answer and load the next image
         function checkAnswer(selected) {
             if (selected === correctAnswer) {
